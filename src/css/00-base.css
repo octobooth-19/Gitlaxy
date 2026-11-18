@@ -1,0 +1,215 @@
+/* Gitlaxy — 00-base.css: design tokens, resets and shared primitives (owned by coordinator). */
+:root {
+  --bg: #03050b;
+  --panel: rgba(13, 17, 23, .58);
+  --panel-strong: rgba(13, 17, 23, .86);
+  --border: rgba(240, 246, 252, .10);
+  --border-strong: rgba(240, 246, 252, .20);
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --faint: #6e7681;
+  --accent: #58a6ff;
+  --accent-2: #a371f7;
+  --accent-3: #ff7b72;
+  --green: #3fb950;
+  --yellow: #e3b341;
+  --orange: #f0883e;
+  --red: #f85149;
+  --grad: linear-gradient(90deg, #79c0ff 0%, #d2a8ff 50%, #ff7b72 100%);
+  --radius: 14px;
+  --radius-sm: 10px;
+  --blur: 16px;
+  --shadow: 0 12px 40px rgba(0, 0, 0, .45);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --z-labels: 5;
+  --z-hud: 10;
+  --z-chrome: 20;
+  --z-modal: 40;
+  --z-toast: 50;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.45 var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+* { scrollbar-width: thin; scrollbar-color: rgba(240, 246, 252, .18) transparent; }
+::selection { background: rgba(88, 166, 255, .35); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+input, button, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+#glx-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  touch-action: none;
+  outline: none;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+  background: var(--bg);
+}
+#glx-canvas.is-hovering { cursor: pointer; }
+#glx-canvas.is-dragging { cursor: grabbing; }
+
+#glx-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 120% 90% at 50% 45%, transparent 55%, rgba(0, 0, 0, .55) 100%),
+    radial-gradient(ellipse 60% 40% at 50% 110%, rgba(56, 139, 253, .06), transparent 70%);
+}
+
+#glx-labels, #glx-hud-root, #glx-chrome-root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+#glx-labels { z-index: var(--z-labels); overflow: hidden; }
+#glx-hud-root { z-index: var(--z-hud); }
+#glx-chrome-root { z-index: var(--z-chrome); }
+
+.glass {
+  background: var(--panel);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(140%);
+  backdrop-filter: blur(var(--blur)) saturate(140%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: rgba(240, 246, 252, .06);
+  color: var(--text);
+  font: 600 14px/1 var(--font);
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .18s var(--ease), border-color .18s var(--ease), transform .18s var(--ease), box-shadow .18s var(--ease), filter .18s var(--ease);
+}
+.btn:hover { background: rgba(240, 246, 252, .12); border-color: rgba(240, 246, 252, .3); text-decoration: none; }
+.btn:active { transform: translateY(1px) scale(.98); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn-primary {
+  border: 0;
+  background: var(--grad);
+  color: #0d1117;
+  box-shadow: 0 6px 24px rgba(163, 113, 247, .35);
+}
+.btn-primary:hover { background: var(--grad); filter: brightness(1.08); box-shadow: 0 8px 30px rgba(163, 113, 247, .5); }
+.btn-ghost { background: transparent; border-color: transparent; color: var(--muted); }
+.btn-ghost:hover { background: rgba(240, 246, 252, .06); border-color: transparent; color: var(--text); }
+
+.icon-btn {
+  appearance: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(13, 17, 23, .5);
+  color: var(--text);
+  cursor: pointer;
+  transition: background .18s var(--ease), border-color .18s var(--ease), color .18s var(--ease), transform .18s var(--ease);
+}
+.icon-btn:hover { background: rgba(240, 246, 252, .1); border-color: var(--border-strong); }
+.icon-btn:active { transform: scale(.94); }
+.icon-btn[aria-pressed="true"] { color: var(--accent); border-color: rgba(88, 166, 255, .5); background: rgba(56, 139, 253, .15); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(240, 246, 252, .06);
+  color: var(--text);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 5px;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  background: rgba(240, 246, 252, .06);
+  color: var(--text);
+  font: 600 11px/1 var(--mono);
+}
+
+.mono { font-family: var(--mono); }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.icon { display: block; flex: none; }
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.glx-fatal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  padding: 32px;
+  text-align: center;
+  background: radial-gradient(ellipse at center, #0d1117, var(--bg));
+  color: var(--text);
+}
+.glx-fatal h1 { margin: 0; font-size: 28px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.glx-fatal p { margin: 0 auto; max-width: 520px; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
